@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">美队健身</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="muscletech">欢迎来到MuscleTech</string>
+    <string name ="food_0">含有深色浆果和核桃的粥 </string>
+    <string name ="food_1">高蛋饮品和5克支链氨基酸(BCAA)</string>
+    <string name ="food_2">苹果加杏仁  </string>
+    <string name ="food_3">高蛋饮品和5克支链氨基酸(BCAA)</string>
+    <string name ="food_4">鸡肉沙拉、棕色印度香米 </string>
+    <string name ="food_5">高蛋白饮品 </string>
+    <string name ="food_6">瘦肉蛋白，如鱼、鸡肉或牛肉，加蔬菜，无淀粉的碳水化合物 </string>
+    <string name ="food_7">谷氨酰胺和欧米伽3鱼油</string>
+    <string name ="dinner_0">早餐 </string>
+    <string name ="dinner_1">上午加餐</string>
+    <string name ="dinner_2">训练前加餐 </string>
+    <string name ="dinner_3">训练后加餐</string>
+    <string name ="dinner_4">20分钟后加餐 </string>
+    <string name ="dinner_5">下午加餐 </string>
+    <string name ="dinner_6">晚餐</string>
+    <string name ="dinner_7">补充</string>
+    <string name="about">"感谢您的使用，有问题请反馈邮箱：android_211@163.com，谢谢，前进离不开您的支持"</string>
+    <string name="info_frag2">"    每周安排六天训练，采用分离式训练方法，包括胸、腹、肩、背、腿、臂等肌肉群，周日休息，每周往复。健身除了要保证足够的运动量和营养补给以外，休息也是非常重要的。肌肉生长主要在睡眠中进行，因此七八个小时的睡眠应当保障"</string>
+</resources>
