@@ -47,11 +47,9 @@ public class Fragment3 extends Fragment
 	private Boolean locationFlag;
 	private LocationClient locClient;
 	private final String keyWordInSearch = "健身房";
-	private final int radiusInSearch = 10 * 1000;
+	private final int radiusInSearch = 5 * 1000;
 	private double latitude = 0;
 	private double longitude = 0;
-	private double centerLat = 0;
-	private double centerLon = 0;
 	private PoiSearch poiSearch;
 	private MyPoiOverlay myPoiOverlay;
 
@@ -85,7 +83,7 @@ public class Fragment3 extends Fragment
 		baiduMap.setOnMarkerClickListener(this);
 	}
 
-	private void poiSearch() {
+	private void poiSearch(double centerLat, double centerLon) {
 		// TODO Auto-generated method stub
 		poiSearch.searchNearby(new PoiNearbySearchOption().radius(radiusInSearch).keyword(keyWordInSearch)
 				.location(new LatLng(centerLat, centerLon)));
@@ -193,9 +191,7 @@ public class Fragment3 extends Fragment
 	public void onMapStatusChangeFinish(MapStatus arg0) {
 		// TODO Auto-generated method stub
 		LatLng latLng = baiduMap.getMapStatus().target;
-		centerLat = latLng.latitude;
-		centerLon = latLng.longitude;
-		poiSearch();
+		poiSearch(latLng.latitude, latLng.longitude);
 	}
 
 	@Override

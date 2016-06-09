@@ -5,21 +5,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Window;
 
 public class InitActivity extends Activity {
 
-	private static final int DELAY_VALUE = 3000;   /* 3s延迟  */
+	private static final int DELAY_VALUE = 2000;   /* 3s延迟  */
 	private SharedPreferences shareaPare;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		Log.w("21",  "onCreate");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.init);
 		shareaPare = getSharedPreferences("phone", MODE_PRIVATE);
@@ -27,7 +29,6 @@ public class InitActivity extends Activity {
 		new Handler().postDelayed(new Runnable() {
 
 			Intent initIntent;
-
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
@@ -47,18 +48,18 @@ public class InitActivity extends Activity {
 					initIntent = new Intent(InitActivity.this, MainActivity.class);
 					//MyTipDB.openDatabase(InitActivity.this); /* just 4 test */
 				}
-				startActivity(initIntent);
-				finish();
+				InitActivity.this.startActivity(initIntent);
+				InitActivity.this.finish();
 			}
 		}, DELAY_VALUE);
 	}
 
 	private int getAppVersion() {
 		// TODO Auto-generated method stub
-		PackageManager pm = getPackageManager();
+		//PackageManager pm = getPackageManager();
 		PackageInfo pi;
 		try {
-			pi = pm.getPackageInfo(getPackageName(), 0);
+			pi = getPackageManager().getPackageInfo(getPackageName(), 0);
 			return pi.versionCode;
 		} catch (NameNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -66,4 +67,16 @@ public class InitActivity extends Activity {
 		}
 		return 0;
 	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		//return super.onKeyDown(keyCode, event);
+		if (keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			return false;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+	
 }

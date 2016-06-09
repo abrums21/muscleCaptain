@@ -23,7 +23,8 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
 
     <application
-        android:allowBackup="true"
+        android:name=".MyApplication"
+        android:allowBackup="false"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -33,7 +34,7 @@
 <!--            android:value="1UkHRrXTZ5425yG6u9BjU32FqPDX1iGO" />   -->  
   
         <activity
-            android:name="com.chenglong.muscle.InitActivity"
+            android:name=".InitActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

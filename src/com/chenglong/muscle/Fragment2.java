@@ -15,7 +15,6 @@ import android.widget.Spinner;
 
 public class Fragment2 extends Fragment {
 
-	private final String[] week = {"星期日 课程", "星期一 课程", "星期二 课程", "星期三 课程", "星期四 课程", "星期五 课程", "星期六 课程" };
 	private final int[] trainImages = {R.drawable.sunday,
 			                           R.drawable.monday, 
 			                           R.drawable.tuesday, 
@@ -42,10 +41,12 @@ public class Fragment2 extends Fragment {
 		
 		training = (ImageView)getActivity().findViewById(R.id.trainning_frag2);
 		Spinner spinner = (Spinner) getActivity().findViewById(R.id.today_frag2);
-		ArrayAdapter<String> sa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, week);
+		ArrayAdapter<String> sa = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.weekLession));
 		spinner.setAdapter(sa);
+		
 		spinner.setSelection(today - 1, true);
 		training.setImageResource(trainImages[today-1]);
+		
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override

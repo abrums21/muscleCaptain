@@ -1,52 +1,40 @@
 package com.chenglong.muscle;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
-public class WelcomeActivity extends Activity implements OnClickListener, OnPageChangeListener {
+public class WelcomeActivity extends Activity {
 
-	private static final int[] pics = {R.drawable.intro_1, R.drawable.intro_2, R.drawable.intro_3, R.drawable.intro_4};
+	private static final int[] pics = { R.drawable.intro_1, R.drawable.intro_2, R.drawable.intro_3,
+			R.drawable.intro_4 };
 	private ViewPager vp;
 	private ImageView[] dots;
 	private int curIndex;
 	private Button button;
+	private long firstTime = 0;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.welcome);
 
-		/* 定时器跳转 */
-		// setContentView(R.layout.welcome);
-		//
-		// start = new Intent(this, MainActivity.class);
-		//
-		// new Timer().schedule(new TimerTask() {
-		//
-		// @Override
-		// public void run() {
-		// // TODO Auto-generated method stub
-		// startActivity(start);
-		// finish();
-		// }
-		// }, 5000);
-		
 		ImageSetting();
-		
+
 		DotsSetting();
-		
+
 		switchSetting();
 	}
 
@@ -60,6 +48,7 @@ public class WelcomeActivity extends Activity implements OnClickListener, OnPage
 				// TODO Auto-generated method stub
 				Intent startIntent = new Intent(WelcomeActivity.this, MainActivity.class);
 				startActivity(startIntent);
+				ImageLoader.getInstance().clearMemoryCache();
 				finish();
 			}
 		});
@@ -67,23 +56,46 @@ public class WelcomeActivity extends Activity implements OnClickListener, OnPage
 
 	private void ImageSetting() {
 		// TODO Auto-generated method stub
-		List<View> viewList = new ArrayList<View>();
+		// List<View> viewList = new ArrayList<View>();
+		//
+		// LinearLayout.LayoutParams mParams = new
+		// LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+		// LinearLayout.LayoutParams.WRAP_CONTENT);
+		//
+		// /* 图片初始化 */
+		// for (int i = 0; i < pics.length; i++) {
+		// ImageView iv = new ImageView(this);
+		// iv.setLayoutParams(mParams);
+		// iv.setImageResource(pics[i]);
+		// viewList.add(iv);
+		// }
 
-		LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);
-
-		/* 图片初始化 */
-		for (int i = 0; i < pics.length; i++) {
-			ImageView iv = new ImageView(this);
-			iv.setLayoutParams(mParams);
-			iv.setImageResource(pics[i]);
-			viewList.add(iv);
-		}
-
-		vp = (ViewPager)findViewById(R.id.viewpager);
-		WelcomeAdapter adapter = new WelcomeAdapter(viewList);
-		vp.setAdapter(adapter);
-		vp.setOnPageChangeListener(this);
+		vp = (ViewPager) findViewById(R.id.viewpager);
+		vp.setAdapter(new WelcomeAdapter(pics, this));
+		vp.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				// TODO Auto-generated method stub
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+				// TODO Auto-generated method stub	
+			}
+			
+			@Override
+			public void onPageSelected(int position) {
+				// TODO Auto-generated method stub
+				setCurDot(position);
+				if (position == pics.length - 1) {
+					button.setVisibility(View.VISIBLE);
+				} else {
+					button.setVisibility(View.GONE);
+				}
+			}
+			
+		});
 	}
 
 	private void DotsSetting() {
@@ -102,7 +114,7 @@ public class WelcomeActivity extends Activity implements OnClickListener, OnPage
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					setCurViewPager((Integer) v.getTag());
-					//setCurDot((Integer) v.getTag());
+					// setCurDot((Integer) v.getTag());
 				}
 			});
 
@@ -122,7 +134,7 @@ public class WelcomeActivity extends Activity implements OnClickListener, OnPage
 		dots[curIndex].setEnabled(true);
 		curIndex = position;
 	}
-	
+
 	private void setCurViewPager(int position) {
 		if ((position < 0) || (position > pics.length - 1) || (curIndex == position)) {
 			return;
@@ -131,30 +143,24 @@ public class WelcomeActivity extends Activity implements OnClickListener, OnPage
 		vp.setCurrentItem(position);
 	}
 
-	@Override
-	public void onPageScrollStateChanged(int arg0) {
-		// TODO Auto-generated method stub
-	}
 
 	@Override
-	public void onPageScrolled(int arg0, float arg1, int arg2) {
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onPageSelected(int arg0) {
-		// TODO Auto-generated method stub
-		setCurDot(arg0);
-		if (arg0 == pics.length - 1) {
-			button.setVisibility(View.VISIBLE);
-		} else {
-			button.setVisibility(View.GONE);
+		// return super.onKeyDown(keyCode, event);
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			long secondTime = System.currentTimeMillis();
+			if (secondTime - firstTime > 2000) {
+				Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+				firstTime = secondTime;
+			} else { 
+				ImageLoader.getInstance().clearMemoryCache();
+				ImageLoader.getInstance().stop();
+				finish();
+			}
+			return true;
 		}
-	}
-
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		return super.onKeyDown(keyCode, event);
 	}
 
 }

@@ -1,10 +1,14 @@
 package com.chenglong.muscle;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements OnClickListener, OnPageChangeListener {
 	
@@ -64,13 +69,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 		// TODO Auto-generated method stub
 		viewPager = (ViewPager) findViewById(R.id.vp_main);
 		viewPager.setOffscreenPageLimit(frags.length);
-		List<Fragment> fragList = new ArrayList<Fragment>();
+//		List<Fragment> fragList = new ArrayList<Fragment>();
+//
+//		for (Fragment frag : frags) {
+//			fragList.add(frag); /* 一处使用不涉及Fragment内存重复申请 */
+//		}
 
-		for (Fragment frag : frags) {
-			fragList.add(frag); /* 一处使用不涉及Fragment内存重复申请 */
-		}
-
-		FragmentAdapter fragAdapter = new FragmentAdapter(getSupportFragmentManager(), fragList);
+		FragmentAdapter fragAdapter = new FragmentAdapter(getSupportFragmentManager(), frags);
 		viewPager.setAdapter(fragAdapter);
 		viewPager.setCurrentItem(curIndex);
 		viewPager.setOnPageChangeListener(this);
@@ -166,8 +171,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 		    case ITEM1:
 		    {
 		    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		    	LayoutInflater layoutInflater = LayoutInflater.from(this);
-		    	View aboutView = layoutInflater.inflate(R.layout.about, null);
+		    	View aboutView = LayoutInflater.from(this).inflate(R.layout.about, null);
 		    	builder.setTitle("关于本软件")
 		    	       .setView(aboutView)
 		    	       .setNegativeButton("关闭", null)
@@ -237,6 +241,29 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 	public void onPageSelected(int arg0) {
 		// TODO Auto-generated method stub
 		setCurImage(arg0);
+	}
+	
+	public void startActivity(Intent intent) {
+	    if (intent.toString().indexOf("mailto") != -1) { // Any way to judge that this is to sead an email
+	        PackageManager pm = getPackageManager();
+	        // The first Method
+	        List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+	        if (activities == null || activities.size() == 0) {
+	            // Do anything you like, or just return
+	        	Toast.makeText(MainActivity.this, "并没有可用的发送EMAIL的软件", Toast.LENGTH_SHORT).show();
+	            return;
+	        }
+	    }
+	   
+	    super.startActivity(intent);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+    	ImageLoader.getInstance().clearMemoryCache();
+    	ImageLoader.getInstance().stop();
 	}
 	
 }
