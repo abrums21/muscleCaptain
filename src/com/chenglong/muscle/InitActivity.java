@@ -1,5 +1,7 @@
 package com.chenglong.muscle;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,20 +10,18 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
 
 public class InitActivity extends Activity {
 
-	private static final int DELAY_VALUE = 2000;   /* 3s延迟  */
+	private static final int DELAY_VALUE = 1500;   /* 3s延迟  */
 	private SharedPreferences shareaPare;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		Log.w("21",  "onCreate");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.init);
 		shareaPare = getSharedPreferences("phone", MODE_PRIVATE);
@@ -49,6 +49,8 @@ public class InitActivity extends Activity {
 					//MyTipDB.openDatabase(InitActivity.this); /* just 4 test */
 				}
 				InitActivity.this.startActivity(initIntent);
+		    	ImageLoader.getInstance().clearMemoryCache();
+		    	ImageLoader.getInstance().stop();
 				InitActivity.this.finish();
 			}
 		}, DELAY_VALUE);

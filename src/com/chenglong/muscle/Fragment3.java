@@ -30,6 +30,9 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 import com.chenglong.baidu.opensrc.MyPoiOverlay;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -52,6 +55,7 @@ public class Fragment3 extends Fragment
 	private double longitude = 0;
 	private PoiSearch poiSearch;
 	private MyPoiOverlay myPoiOverlay;
+	private String phoneNo;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -210,15 +214,37 @@ public class Fragment3 extends Fragment
 //		phoneLink.setText("电话：" + result.getTelephone());
 //		phoneLink.setAutoLinkMask(Linkify.PHONE_NUMBERS);
 		
+		String telephone = result.getTelephone();
+		if ((telephone.isEmpty()) || (telephone.equals("0"))) {
+			phoneNo = "tel:" + result.getTelephone();
+		}
+		else
+		{
+			telephone = "暂无";
+			phoneNo = "";
+		}
+			
 		String[] info = {"地址: " + result.getAddress(), 
-				         "电话：" + result.getTelephone(),
+				         "电话：" + telephone,
 				         "营业时间：" + result.getShopHours(),
 				         "价格：" + result.getPrice(), 
 				         "综合评价：" + result.getOverallRating(), 
 				         "服务评价：" + result.getServiceRating()};
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(result.getName()).setIcon(R.drawable.icon_2).setPositiveButton("关闭", null).setItems(info, null);
+		builder.setTitle(result.getName()).setIcon(R.drawable.icon_2).setPositiveButton("关闭", null).setItems(info, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				if ((1 == which) && (!phoneNo.isEmpty()))
+				{
+					Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(phoneNo));
+					getActivity().startActivity(intent);
+				}
+				
+			}
+		});
 		builder.create().show();
 	}
 	
@@ -236,7 +262,6 @@ public class Fragment3 extends Fragment
 //			//Toast.makeText(getActivity(), "city:"+poi.city+" name:"+poi.name+" address:"+poi.address, Toast.LENGTH_SHORT).show();	    
 //		}
 		myPoiOverlay.setData(result);
-		//baiduMap.addOverlays(poiOverlay.getOverlayOptions());
 		myPoiOverlay.addToMap();		
 	}
 

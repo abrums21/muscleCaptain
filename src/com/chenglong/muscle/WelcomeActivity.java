@@ -49,7 +49,7 @@ public class WelcomeActivity extends Activity {
 				Intent startIntent = new Intent(WelcomeActivity.this, MainActivity.class);
 				startActivity(startIntent);
 				ImageLoader.getInstance().clearMemoryCache();
-				finish();
+				WelcomeActivity.this.finish();
 			}
 		});
 	}
@@ -156,7 +156,7 @@ public class WelcomeActivity extends Activity {
 			} else { 
 				ImageLoader.getInstance().clearMemoryCache();
 				ImageLoader.getInstance().stop();
-				finish();
+				WelcomeActivity.this.finish();
 			}
 			return true;
 		}

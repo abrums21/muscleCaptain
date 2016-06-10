@@ -7,7 +7,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -244,13 +243,20 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 	}
 	
 	public void startActivity(Intent intent) {
-	    if (intent.toString().indexOf("mailto") != -1) { // Any way to judge that this is to sead an email
-	        PackageManager pm = getPackageManager();
-	        // The first Method
-	        List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
+		String uri = intent.toString();
+	    if (uri.indexOf("mailto") != -1) { // Any way to judge that this is to sead an email
+	        List<ResolveInfo> activities = getPackageManager().queryIntentActivities(intent, 0);
 	        if (activities == null || activities.size() == 0) {
 	            // Do anything you like, or just return
-	        	Toast.makeText(MainActivity.this, "并没有可用的发送EMAIL的软件", Toast.LENGTH_SHORT).show();
+	        	Toast.makeText(MainActivity.this, "并没有可用的发送EMAIL软件", Toast.LENGTH_SHORT).show();
+	            return;
+	        }
+	    }
+	    else if (uri.indexOf("tel") != -1) { 
+	    	List<ResolveInfo> activities = getPackageManager().queryIntentActivities(intent, 0);
+	        if (activities == null || activities.size() == 0) {
+	            // Do anything you like, or just return
+	        	Toast.makeText(MainActivity.this, "并没有可用的打电话软件", Toast.LENGTH_SHORT).show();
 	            return;
 	        }
 	    }

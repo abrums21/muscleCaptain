@@ -69,28 +69,26 @@ public class MyTipDB {
 			// 如果/sdcard/dictionary目录中存在，创建这个目录
 			if (!dir.exists())
 				dir.mkdir();
-			
-			if ((new File(databaseFilename)).exists()) 
-			{
+
+			if ((new File(databaseFilename)).exists()) {
 				(new File(databaseFilename)).delete();
 			}
 			// 如果在/sdcard/dictionary目录中不存在
 			// dictionary.db文件，则从res\raw目录中复制这个文件到
 			// SD卡的目录（/sdcard/dictionary）
 			// if (!(new File(databaseFilename)).exists()) {
-				// 获得封装dictionary.db文件的InputStream对象
-				InputStream is = context.getResources().openRawResource(R.raw.my);
-				FileOutputStream fos = new FileOutputStream(databaseFilename);
-				byte[] buffer = new byte[8192];
-				int count = 0;
-				// 开始复制dictionary.db文件
-				while ((count = is.read(buffer)) > 0) {
-					fos.write(buffer, 0, count);
-				}
-
-				fos.close();
-				is.close();
-			//}
+			// 获得封装dictionary.db文件的InputStream对象
+			InputStream is = context.getResources().openRawResource(R.raw.my);
+			FileOutputStream fos = new FileOutputStream(databaseFilename);
+			byte[] buffer = new byte[is.available()];
+			int count = 0;
+			// 开始复制dictionary.db文件
+			while ((count = is.read(buffer)) > 0) {
+				fos.write(buffer, 0, count);
+			}
+			fos.close();
+			is.close();
+			// }
 			// 打开/sdcard/dictionary目录中的dictionary.db文件
 			//SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databaseFilename, null);
 			return;
