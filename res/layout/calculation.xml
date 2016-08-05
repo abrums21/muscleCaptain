@@ -1,0 +1,14 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@drawable/calc_bgd">
+
+    <ListView
+        android:id="@+id/calculation_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#bfbfbf"
+        android:dividerHeight="8dp"
+        android:padding="8dp" />
+
+</LinearLayout>

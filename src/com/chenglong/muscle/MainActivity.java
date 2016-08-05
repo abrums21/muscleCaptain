@@ -2,6 +2,7 @@ package com.chenglong.muscle;
 
 import java.util.List;
 
+import com.chenglong.muscle.puzzle.SettingActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.AlertDialog;
@@ -29,19 +30,21 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 	private ViewPager viewPager;
 	private ImageView[] images;
 	private int curIndex;
-	private Fragment1 frag1 = new Fragment1();
-	private Fragment2 frag2 = new Fragment2();
-	private Fragment3 frag3 = new Fragment3();
-	private final Fragment[] frags = { frag1, frag2, frag3 };
-	private final int[] imageId = { R.id.image1, R.id.image2, R.id.image3 };
-	private final String[] titleInfo = {"美队健身：队长食谱", "美队健身：队长课程", "美队健身：附近健身房"};
+	private MuscleFrag1 frag1 = new MuscleFrag1();
+	private ToolFrag2 frag2 = new ToolFrag2();
+	//private Fragment3 frag3 = new Fragment3();
+	//private final Fragment[] frags = { frag1, frag2, frag3 };
+	private final Fragment[] frags = { frag1, frag2};
+	private final int[] imageId = { R.id.image1, R.id.image2};
+	private final String[] titleInfo = {"美队健身：训练", "美队健身：工具"};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		// requestWindowFeature(Window.FEATURE_PROGRESS);
-		setContentView(R.layout.main);
+		setContentView(R.layout.main);	
+		
 		// setProgressBarVisibility(true);
 		// setProgress(50);
 
@@ -135,7 +138,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
+						//getWindow().getDecorView().startAnimation(new MyAnimation());
+						//new MyAnimation().start();
 						finish();
+						
 					}
 				}).setNegativeButton("再看看", null);
 				adBuilder.create().show();
@@ -271,5 +277,5 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
     	ImageLoader.getInstance().clearMemoryCache();
     	ImageLoader.getInstance().stop();
 	}
-	
+		
 }

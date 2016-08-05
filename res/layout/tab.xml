@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/food" />
+                android:src="@drawable/dumbbell" />
         </LinearLayout>
 
         <LinearLayout
@@ -59,26 +59,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:src="@drawable/run" />
+                android:src="@drawable/tool" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_frag3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:focusable="false"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="10dip" >
 
-            <ImageView
-                android:id="@+id/image3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:src="@drawable/dumbbell" />
-        </LinearLayout>
     </LinearLayout>
 
 

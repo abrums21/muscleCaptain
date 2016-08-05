@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class MyTipDB {
 
 	private SQLiteDatabase db = null;
-	private static String MY_DATABASE_PATH = "/data/data/com.chenglong.muscle";
+	private static String MY_DATABASE_PATH = "/data/data/com.chenglong.muscle/databases";
 	private static String MY_DATABASE_FILENAME = "my.db";
 	
 	public MyTipDB() {

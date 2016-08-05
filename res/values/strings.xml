@@ -4,4 +4,6 @@
     <string name="action_settings">Settings</string>
     <string name="about">"        感谢您的使用，有任何问题请反馈邮箱：androidBoy21@163.com，谢谢，我的前进离不开您的支持"</string>
     <string name="info_frag2">"        每周安排六天训练，采用分离式训练方法，包括胸、腹、肩、背、腿、臂等肌肉群，周日休息，每周往复。健身除了要保证足够的运动量和营养补给以外，休息也是非常重要的。肌肉生长主要在睡眠中进行，因此七八个小时的睡眠应当保障"</string>
+    <string name="diet_desc">这里介绍美队扮演者克里斯·埃文斯健身期间的餐饮食谱，从就餐次数、时间、内容的等三个方面对进行列举，供使用者学习和参考</string>
+    <string name="lession_desc">这里介绍美队扮演者克里斯·埃文斯傲人身材的训练课程，以周为单位进行分离式训练方法，涵盖胸、腹、肩、背、腿、臂等部位肌肉</string>
 </resources>

@@ -6,10 +6,19 @@
         <item>上午加餐</item>
         <item>训练前加餐</item>
         <item>训练后加餐</item>
-        <item>20分钟后加餐</item>
+        <item>20分后加餐</item>
         <item>下午加餐</item>
         <item>晚餐</item>
         <item>补充</item>
+    </string-array>
+    <string-array name="weekLession">
+        <item>星期日 课程</item>
+        <item>星期一 课程</item>
+        <item>星期二 课程</item>
+        <item>星期三 课程</item>
+        <item>星期四 课程</item>
+        <item>星期五 课程</item>
+        <item>星期六 课程</item>
     </string-array>
     <string-array name="foods">
         <item>含有深色浆果和核桃的粥</item>
@@ -21,14 +30,218 @@
         <item>瘦肉蛋白，如鱼、鸡肉或牛肉，加蔬菜，无淀粉的碳水化合物 </item>
         <item>谷氨酰胺和欧米伽3鱼油</item>
     </string-array>
-    <string-array name="weekLession">
-        <item>星期日 课程</item>
-        <item>星期一 课程</item>
-        <item>星期二 课程</item>
-        <item>星期三 课程</item>
-        <item>星期四 课程</item>
-        <item>星期五 课程</item>
-        <item>星期六 课程</item>
+    <string-array name="muscle">
+        <item>胸部是人体的四大肌肉群之一，主要组成肌肉是胸大肌等</item>
+        <item>背部是人体的四大肌肉群之一，主要组成肌肉是斜方肌、背阔肌、菱形肌等</item>
+        <item>肩部主要组成肌肉为三角肌（前束、中束、后束）等</item>
+        <item>手臂主要组成肌肉包括肱二头肌、肱三头肌、肱肌、肱桡肌、指伸肌等</item>
+        <item>腹部是人体的四大肌肉群之一，主要组成肌肉是腹直肌、腹内斜肌、腹外斜肌等</item>
+        <item>腿部是人体的四大肌肉群之一，主要组成肌肉是股外侧肌、腓肠肌、比目鱼肌、股二头肌、股外侧肌等</item>
     </string-array>
-
+    
+    <string-array name="breast_name">
+        <item>俯卧撑</item>
+        <item>滚轮支点俯卧撑</item>
+        <item>平板卧推</item>
+        <item>上斜哑铃夹胸</item>
+    </string-array>
+    <string-array name="breast_drawable">
+        <item>@drawable/breast_1</item>
+        <item>@drawable/breast_2</item>
+        <item>@drawable/breast_3</item>
+        <item>@drawable/breast_4</item>
+    </string-array>
+    <string-array name="breast_drawable_gif">
+        <item>@drawable/breast_1_g</item>
+        <item>@drawable/breast_2_g</item>
+        <item>@drawable/breast_3_g</item>
+        <item>@drawable/breast_4_g</item>
+    </string-array>
+    
+    <string-array name="back_name">
+        <item>伏地挺身</item>
+        <item>俯身杠铃双臂划船</item>
+        <item>附身哑铃飞鸟</item>
+        <item>附身哑铃划船</item>
+        <item>钢线下拉</item>
+        <item>双杠臂屈伸</item>
+        <item>引体向上</item>
+        <item>硬拉</item>
+        <item>站姿哑铃提肩</item>
+    </string-array>
+    <string-array name="back_drawable">
+        <item>@drawable/back_1</item>
+        <item>@drawable/back_2</item>
+        <item>@drawable/back_3</item>
+        <item>@drawable/back_4</item>
+        <item>@drawable/back_5</item>
+        <item>@drawable/back_6</item>
+        <item>@drawable/back_7</item>
+        <item>@drawable/back_8</item>
+        <item>@drawable/back_9</item>
+    </string-array>
+    <string-array name="back_drawable_gif">
+        <item>@drawable/back_1_g</item>
+        <item>@drawable/back_2_g</item>
+        <item>@drawable/back_3_g</item>
+        <item>@drawable/back_4_g</item>
+        <item>@drawable/back_5_g</item>
+        <item>@drawable/back_6_g</item>
+        <item>@drawable/back_7_g</item>
+        <item>@drawable/back_8_g</item>
+        <item>@drawable/back_9_g</item>
+    </string-array>
+    
+    <string-array name="shoulder_name">
+        <item>哑铃前平举</item>
+        <item>肢体哑铃推肩</item>
+        <item>哑铃侧平提肩</item>
+    </string-array>
+    <string-array name="shoulder_drawable">
+        <item>@drawable/shoulder_1</item>
+        <item>@drawable/shoulder_2</item>
+        <item>@drawable/shoulder_3</item>
+    </string-array>
+    <string-array name="shoulder_drawable_gif">
+        <item>@drawable/shoulder_1_g</item>
+        <item>@drawable/shoulder_2_g</item>
+        <item>@drawable/shoulder_3_g</item>
+    </string-array>
+    
+        <string-array name="hand_name">
+        <item>二头杠铃弯举</item>
+        <item>二头哑铃弯举</item>
+        <item>反手引体向上</item>
+        <item>肱肌训练</item>
+        <item>平凳肱三头肌训练</item>
+        <item>小臂伸收训练</item>
+        <item>仰卧平板杠铃肱三弯举</item>
+    </string-array>
+    <string-array name="hand_drawable">
+        <item>@drawable/hand_1</item>
+        <item>@drawable/hand_2</item>
+        <item>@drawable/hand_3</item>
+        <item>@drawable/hand_4</item>
+        <item>@drawable/hand_5</item>
+        <item>@drawable/hand_6</item>
+        <item>@drawable/hand_7</item>
+    </string-array>
+    <string-array name="hand_drawable_gif">
+        <item>@drawable/hand_1_g</item>
+        <item>@drawable/hand_2_g</item>
+        <item>@drawable/hand_3_g</item>
+        <item>@drawable/hand_4_g</item>
+        <item>@drawable/hand_5_g</item>
+        <item>@drawable/hand_6_g</item>
+        <item>@drawable/hand_7_g</item>
+    </string-array>
+    
+    <string-array name="abdomen_name">
+        <item>山羊挺身</item>
+        <item>悬挂屈腿收腹</item>
+        <item>仰卧卷腹</item>
+        <item>仰卧转体</item>
+    </string-array>
+    <string-array name="abdomen_drawable">
+        <item>@drawable/abdomen_1</item>
+        <item>@drawable/abdomen_2</item>
+        <item>@drawable/abdomen_3</item>
+        <item>@drawable/abdomen_4</item>
+    </string-array>
+    <string-array name="abdomen_drawable_gif">
+        <item>@drawable/abdomen_1_g</item>
+        <item>@drawable/abdomen_2_g</item>
+        <item>@drawable/abdomen_3_g</item>
+        <item>@drawable/abdomen_4_g</item>
+    </string-array>
+    
+    <string-array name="leg_name">
+        <item>俯身单腿平衡训练</item>
+        <item>负重俯身单腿平衡训练</item>
+        <item>负重台阶单腿训练</item>
+        <item>深蹲</item>
+    </string-array>
+    <string-array name="leg_drawable">
+        <item>@drawable/leg_1</item>
+        <item>@drawable/leg_2</item>
+        <item>@drawable/leg_3</item>
+        <item>@drawable/leg_4</item>
+    </string-array>
+    <string-array name="leg_drawable_gif">
+        <item>@drawable/leg_1_g</item>
+        <item>@drawable/leg_2_g</item>
+        <item>@drawable/leg_3_g</item>
+        <item>@drawable/leg_4_g</item>
+    </string-array>
+    
+    <string-array name="body">
+        <item>@array/breast_name</item>
+        <item>@array/breast_drawable</item>
+        <item>@array/breast_drawable_gif</item>
+        <item>@array/back_name</item>
+        <item>@array/back_drawable</item>
+        <item>@array/back_drawable_gif</item>
+        <item>@array/shoulder_name</item>
+        <item>@array/shoulder_drawable</item>
+        <item>@array/shoulder_drawable_gif</item>
+        <item>@array/hand_name</item>
+        <item>@array/hand_drawable</item>
+        <item>@array/hand_drawable_gif</item>
+        <item>@array/abdomen_name</item>
+        <item>@array/abdomen_drawable</item>
+        <item>@array/abdomen_drawable_gif</item>
+        <item>@array/leg_name</item>
+        <item>@array/leg_drawable</item>
+        <item>@array/leg_drawable_gif</item>
+    </string-array>
+    
+     <array name="tool_image">
+        <item>@drawable/map</item>
+        <item>@drawable/lession</item>
+        <item>@drawable/diet</item>
+        <item>@drawable/info</item>
+        <item>@drawable/puzzle</item>
+        <item>@drawable/calculation</item>
+        <item>@drawable/album</item>
+    </array>
+    
+     <string-array name="tool_iamge_name">
+        <item>附近健身房</item>
+        <item>美队课程</item>
+        <item>美队食谱</item>
+        <item>健身贴士</item>
+        <item>轻松游戏</item>
+        <item>健康计算</item>
+        <item>健身记录</item>
+    </string-array>
+    
+     <string-array name="puzzle_image">
+        <item>@drawable/intro_1</item>
+        <item>@drawable/intro_2</item>
+        <item>@drawable/intro_3</item>
+        <item>@drawable/intro_4</item>
+        <item>@drawable/init</item>
+        <item>@drawable/bgd_1</item>
+        <item>@drawable/bgd_2</item>
+        <item>@drawable/diet_pic</item>
+        <item>@drawable/info_pic</item>
+        <item>@drawable/bak_pic</item>
+        <item>@drawable/puzzle_add</item>
+    </string-array>
+    
+     <string-array name="calculation_items">
+        <item>BMI计算</item>
+        <item>标准三围计算</item>
+        <item>最大心率计算</item>
+        <item>基础代谢率计算</item>
+    </string-array>
+    
+     <string-array name="work_level_items">
+        <item>坐式生活~极少运动</item>
+        <item>轻微活动~日常生活</item>
+        <item>中强度健身~每周3~4次</item>
+        <item>大强度健身~每周5~6次</item>
+        <item>专业运动员~每周7次</item>
+    </string-array>
+    
 </resources>

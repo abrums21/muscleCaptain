@@ -11,6 +11,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,8 +29,8 @@ public class WelcomeActivity extends Activity {
 	private long firstTime = 0;
 
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		super.onCreate(savedInstanceState);		
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.welcome);
 
 		ImageSetting();
@@ -47,6 +49,7 @@ public class WelcomeActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent startIntent = new Intent(WelcomeActivity.this, MainActivity.class);
+				//Intent startIntent = new Intent(WelcomeActivity.this, MuscleActivity.class);
 				startActivity(startIntent);
 				ImageLoader.getInstance().clearMemoryCache();
 				WelcomeActivity.this.finish();
@@ -90,7 +93,10 @@ public class WelcomeActivity extends Activity {
 				setCurDot(position);
 				if (position == pics.length - 1) {
 					button.setVisibility(View.VISIBLE);
+					Animation an = AnimationUtils.loadAnimation(WelcomeActivity.this, R.anim.welcome_button);
+					button.setAnimation(an);
 				} else {
+					button.clearAnimation();
 					button.setVisibility(View.GONE);
 				}
 			}

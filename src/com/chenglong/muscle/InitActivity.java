@@ -1,5 +1,9 @@
 package com.chenglong.muscle;
 
+import com.chenglong.muscle.R;
+import com.chenglong.muscle.R.drawable;
+import com.chenglong.muscle.R.id;
+import com.chenglong.muscle.R.layout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
@@ -12,10 +16,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.Window;
+import android.view.animation.LayoutAnimationController;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class InitActivity extends Activity {
 
-	private static final int DELAY_VALUE = 1500;   /* 3s延迟  */
+	private static final int DELAY_VALUE = 3000;   /* 3s延迟  */
 	private SharedPreferences shareaPare;
 
 	@Override
@@ -25,14 +32,21 @@ public class InitActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.init);
 		shareaPare = getSharedPreferences("phone", MODE_PRIVATE);
+		
+		ImageView img = (ImageView)findViewById(R.id.init_img);
+		img.setImageResource(R.drawable.init);
+		img.startAnimation(new MyAnimation());
+		
+		MyTipDB.openDatabase(this);
 
 		new Handler().postDelayed(new Runnable() {
 
-			Intent initIntent;
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				int version = getAppVersion();
+				
+				Intent initIntent;				
 				if (shareaPare.getBoolean("firstStart", true) || (version != shareaPare.getInt("curVersion", 0))) {
 					/* 首次启动 */
 					Editor editor = shareaPare.edit();
@@ -46,9 +60,12 @@ public class InitActivity extends Activity {
 				} else {
 					/* 非首次启动 */
 					initIntent = new Intent(InitActivity.this, MainActivity.class);
-					//MyTipDB.openDatabase(InitActivity.this); /* just 4 test */
+					//initIntent = new Intent(InitActivity.this, WelcomeActivity.class);  /* just 4 test */
 				}
+				
 				InitActivity.this.startActivity(initIntent);
+				//overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				
 		    	ImageLoader.getInstance().clearMemoryCache();
 		    	ImageLoader.getInstance().stop();
 				InitActivity.this.finish();
@@ -69,7 +86,7 @@ public class InitActivity extends Activity {
 		}
 		return 0;
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
