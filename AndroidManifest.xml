@@ -28,8 +28,9 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="false"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/icon_small"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

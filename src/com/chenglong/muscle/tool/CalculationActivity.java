@@ -32,4 +32,11 @@ public class CalculationActivity extends Activity {
 			}
 		});
 	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		System.gc();
+	}
 }

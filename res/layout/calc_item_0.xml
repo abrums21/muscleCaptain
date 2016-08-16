@@ -17,15 +17,16 @@
                 android:layout_height="wrap_content"
                 android:text="身高（cm）："
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/calc_item0_height"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:text="180"
-                android:textSize="20sp" />
+                android:textSize="20sp" 
+                android:maxLength="3"/>
         </TableRow>
 
         <TableRow
@@ -38,15 +39,16 @@
                 android:layout_height="wrap_content"
                 android:text="体重（kg）："
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <EditText
                 android:id="@+id/calc_item0_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:text="75"
-                android:textSize="20sp" />
+                android:textSize="20sp" 
+                android:maxLength="3"/>
         </TableRow>
 
         <TableRow

@@ -1,8 +1,8 @@
 package com.chenglong.muscle;
 
 import android.graphics.Matrix;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.view.animation.Transformation;
 
 public class MyAnimation extends Animation{
@@ -16,7 +16,7 @@ public class MyAnimation extends Animation{
 		super.initialize(width, height, parentWidth, parentHeight);
 		setDuration(1500);
 		setFillAfter(true);
-		setInterpolator(new LinearInterpolator());
+		setInterpolator(new AccelerateDecelerateInterpolator());
 		mWidth = width/2;
 		mHeight = height/2;
 	}

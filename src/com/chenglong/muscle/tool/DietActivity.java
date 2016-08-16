@@ -3,6 +3,7 @@ package com.chenglong.muscle.tool;
 import com.chenglong.muscle.R;
 import com.chenglong.muscle.R.id;
 import com.chenglong.muscle.R.layout;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -20,6 +21,15 @@ public class DietActivity extends Activity{
 		
 		ListView lv = (ListView)findViewById(R.id.diet_list);
 		lv.setAdapter(new DietAdapter(this));
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+    	ImageLoader.getInstance().clearMemoryCache();
+    	ImageLoader.getInstance().stop();
+    	System.gc();
 	}
 	
 }

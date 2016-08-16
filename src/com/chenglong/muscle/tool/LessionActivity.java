@@ -75,4 +75,13 @@ public class LessionActivity extends Activity {
 			}
 		});
 	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+    	ImageLoader.getInstance().clearMemoryCache();
+    	ImageLoader.getInstance().stop();
+    	System.gc();
+	}
 }

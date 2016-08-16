@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.chenglong.muscle.R;
+import com.chenglong.muscle.util.MyScreenUtil;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -22,12 +23,16 @@ public class MyGame {
 	private Bitmap lastBitmap;
 	private Bitmap newBitmap;
 	private Bitmap showBitmap = null;
+	private BitmapFactory.Options options;
 
 	public MyGame(Context context, int colums, Bitmap oldBitmap) {
 		// TODO Auto-generated constructor stub
 		this.colums = colums;
 		this.context = context;
 		this.oldBitmap = oldBitmap;
+		
+		options = new BitmapFactory.Options();
+		options.inPreferredConfig = Bitmap.Config.RGB_565;
 
 		createPuzzleBitmap();
 	}
@@ -126,6 +131,9 @@ public class MyGame {
 
 		newBitmap = Bitmap.createBitmap(oldBitmap, 0, 0, oldBitmap.getWidth(), oldBitmap.getHeight(), matrix, true);
 
+		oldBitmap.recycle();
+		oldBitmap = null;
+		System.gc();
 		return;
 	}
 
@@ -146,7 +154,7 @@ public class MyGame {
 		lastBitmap = tmp;
 		blockList.remove(colums * colums - 1);
 
-		tmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.puzzle_blank);
+		tmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.puzzle_blank, options);
 		tmp = Bitmap.createBitmap(tmp, 0, 0, itemWidth, itemHeight);
 
 		blockList.add(new MyBlock(colums * colums, 0, tmp));
@@ -197,5 +205,22 @@ public class MyGame {
 		}
 
 		return sum;
+	}
+	
+	public void destroyPuzzle() {
+		// TODO Auto-generated method stub
+		recycleBitmap(oldBitmap);
+		recycleBitmap(newBitmap);
+		recycleBitmap(showBitmap);
+		recycleBitmap(blankBlock.getBitmap());
+		System.gc();
+		blockList.clear();
+	}
+	
+	private void recycleBitmap(Bitmap bitmap) {
+			if (bitmap != null && !bitmap.isRecycled()) {
+				bitmap.recycle();
+				bitmap = null;
+			}
 	}
 }

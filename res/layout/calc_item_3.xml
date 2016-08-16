@@ -55,7 +55,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:text="21"
-                android:textSize="20sp" />
+                android:textSize="20sp" 
+                android:maxLength="3"/>
         </TableRow>
 
         <TableRow
@@ -74,9 +75,10 @@
                 android:id="@+id/calc_item3_height"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:text="180"
-                android:textSize="20sp" />
+                android:textSize="20sp" 
+                android:maxLength="3"/>
         </TableRow>
 
         <TableRow
@@ -95,9 +97,10 @@
                 android:id="@+id/calc_item3_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:text="75"
-                android:textSize="20sp" />
+                android:textSize="20sp" 
+                android:maxLength="3"/>
         </TableRow>
 
         <TableRow

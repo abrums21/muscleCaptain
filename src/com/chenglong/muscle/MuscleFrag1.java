@@ -1,11 +1,13 @@
 package com.chenglong.muscle;
 
 import com.chenglong.muscle.body.MuscleListActivity;
+import com.chenglong.muscle.util.MyScreenUtil;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -34,13 +36,13 @@ public class MuscleFrag1 extends Fragment implements OnClickListener, AnimatorLi
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		//Toast.makeText(getActivity(), "WELCOME TO FRAGMENT1", Toast.LENGTH_SHORT).show();
-		return inflater.inflate(R.layout.muscle, container, false);
+	    return inflater.inflate(R.layout.muscle, container, false);
 	}
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-
+		
 		center = (ImageView) getActivity().findViewById(R.id.muscle_center);
 		iv1 = (TextView) getActivity().findViewById(R.id.muscle_1);
 		iv2 = (TextView) getActivity().findViewById(R.id.muscle_2);
@@ -90,7 +92,7 @@ public class MuscleFrag1 extends Fragment implements OnClickListener, AnimatorLi
 		}
 	}
 
-	void startAnimation() {
+	void startAnimation(Context context) {
 		ObjectAnimator an0;
 		ObjectAnimator an1;
 		ObjectAnimator an2;
@@ -103,24 +105,26 @@ public class MuscleFrag1 extends Fragment implements OnClickListener, AnimatorLi
 		ObjectAnimator an9;
 		ObjectAnimator an10;
 
+		float density = MyScreenUtil.getScreenDensity(context);
+		
 		if (true == initFlag) {
 			an0 = ObjectAnimator.ofFloat(center, "alpha", 1F, 0.5F);
 			
-			an1 = ObjectAnimator.ofFloat(iv1, "translationX", -150F);
-			an2 = ObjectAnimator.ofFloat(iv1, "translationY", -400F);
+			an1 = ObjectAnimator.ofFloat(iv1, "translationX", -80F * density);
+			an2 = ObjectAnimator.ofFloat(iv1, "translationY", -170F * density);
 			
-			an3 = ObjectAnimator.ofFloat(iv2, "translationX", 150F);
-			an4 = ObjectAnimator.ofFloat(iv2, "translationY", -400F);
+			an3 = ObjectAnimator.ofFloat(iv2, "translationX", 80F * density);
+			an4 = ObjectAnimator.ofFloat(iv2, "translationY", -170F * density);
 			
-			an5 = ObjectAnimator.ofFloat(iv3, "translationX", -200F);
+			an5 = ObjectAnimator.ofFloat(iv3, "translationX", -120F * density);
 			
-			an6 = ObjectAnimator.ofFloat(iv4, "translationX", 200F);
+			an6 = ObjectAnimator.ofFloat(iv4, "translationX", 120F * density);
 			
-			an7 = ObjectAnimator.ofFloat(iv5, "translationX", -150F);
-			an8 = ObjectAnimator.ofFloat(iv5, "translationY", 400F);
+			an7 = ObjectAnimator.ofFloat(iv5, "translationX", -80F * density);
+			an8 = ObjectAnimator.ofFloat(iv5, "translationY", 170F * density);
 			
-			an9 = ObjectAnimator.ofFloat(iv6, "translationX", 150F);
-			an10 = ObjectAnimator.ofFloat(iv6, "translationY", 400F);
+			an9 = ObjectAnimator.ofFloat(iv6, "translationX", 80F * density);
+			an10 = ObjectAnimator.ofFloat(iv6, "translationY", 170F * density);
 			
 			initFlag = false;
 		} else {
@@ -137,9 +141,11 @@ public class MuscleFrag1 extends Fragment implements OnClickListener, AnimatorLi
 			an10 = ObjectAnimator.ofFloat(iv6, "translationY", 0F);
 			initFlag = true;
 		}
-
+		an1.addListener(this);
+		an2.addListener(this);
+		an3.addListener(this);
+		an4.addListener(this);
 		AnimatorSet set = new AnimatorSet();
-		set.addListener(this);
 		set.setInterpolator(new BounceInterpolator());
 		set.playTogether(an0, an1, an2, an3, an4, an5, an6, an7, an8, an9, an10);
 		set.setDuration(1000);
@@ -153,7 +159,7 @@ public class MuscleFrag1 extends Fragment implements OnClickListener, AnimatorLi
 		case R.id.muscle_center:
 		{
 			center.clearAnimation();
-			startAnimation();
+			startAnimation(getActivity());
 			break;
 		}
 		case R.id.muscle_1:
@@ -213,7 +219,5 @@ public class MuscleFrag1 extends Fragment implements OnClickListener, AnimatorLi
 	public void onAnimationRepeat(Animator animation) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	
+	}	
 }

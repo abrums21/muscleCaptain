@@ -25,7 +25,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:text="21"
-                android:textSize="20sp" />
+                android:textSize="20sp" 
+                android:maxLength="3"/>
         </TableRow>
 
 

@@ -40,9 +40,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MapActivity extends Activity
 		implements BDLocationListener, OnMapStatusChangeListener, OnGetPoiSearchResultListener, OnMarkerClickListener {
@@ -67,6 +69,8 @@ public class MapActivity extends Activity
 		SDKInitializer.initialize(getApplicationContext());
 		setContentView(R.layout.map);
 		setTitle("美队健身：附近健身房");
+		
+		Toast.makeText(this, "本功能依赖于网络访问权限，请确认开启", Toast.LENGTH_SHORT).show();
 		
 		/* 基础地图及定位图层功能 */
 		mapSetting();
@@ -161,6 +165,7 @@ public class MapActivity extends Activity
 		super.onDestroy();
 		mapView.onDestroy();
 		mapView = null;
+		System.gc();
 	}
 
 	@Override
@@ -231,7 +236,7 @@ public class MapActivity extends Activity
 				         "服务评价：" + result.getServiceRating()};
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(result.getName()).setIcon(R.drawable.icon_2).setPositiveButton("关闭", null).setItems(info, new DialogInterface.OnClickListener() {
+		AlertDialog dialog = builder.setTitle(result.getName()).setIcon(R.drawable.icon_gym).setPositiveButton("关闭", null).setItems(info, new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -243,8 +248,13 @@ public class MapActivity extends Activity
 				}
 				
 			}
-		});
-		builder.create().show();
+		}).create();
+		
+		WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+    	lp.alpha = 0.6f;
+    	dialog.getWindow().setAttributes(lp);	
+    	
+    	dialog.show();
 	}
 	
 

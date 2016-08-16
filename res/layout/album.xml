@@ -2,13 +2,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <!--
-    <android.support.v4.view.ViewPager
-        android:id="@+id/album_viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-      -->
-      
      <com.chenglong.muscle.tool.LazyViewPager
         android:id="@+id/album_viewpager"
         android:layout_width="match_parent"

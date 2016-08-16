@@ -2,6 +2,8 @@ package com.chenglong.muscle.puzzle;
 
 import java.util.List;
 
+import com.chenglong.muscle.util.MyScreenUtil;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.DisplayMetrics;
@@ -28,7 +30,8 @@ public class MyGridAdapter extends BaseAdapter {
 		int density = (int) MyScreenUtil.getScreenDensity(context);
 		DisplayMetrics metric = MyScreenUtil.getScreenMetrics(context);
 		width = metric.widthPixels / colums;
-		height = (metric.heightPixels - 190 * density) / colums;
+		//height = (metric.heightPixels - 190 * density) / colums;
+		height = (int)(0.7 * metric.heightPixels) / colums;
 	}
 
 //	public MyGridAdapter(Context context, List<Bitmap> img) {

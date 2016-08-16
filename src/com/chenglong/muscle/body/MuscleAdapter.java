@@ -41,7 +41,7 @@ public class MuscleAdapter extends BaseAdapter {
 //				.showImageOnLoading(R.drawable.ic_launcher)//设置图片在下载期间显示的图片  
 				.showImageOnFail(R.drawable.ic_launcher)//设置图片加载/解码过程中错误时候显示的图片
 				.delayBeforeLoading(0)//设置延时多少时间后开始下载
-				.cacheInMemory(true)// 设置下载的资源是否缓存在SD卡中
+				.cacheInMemory(false)// 设置下载的资源是否缓存在SD卡中
 				.bitmapConfig(Bitmap.Config.RGB_565)
 				.considerExifParams(false)// 是否考虑JPEG图像EXIF参数（旋转，翻转）
 				.imageScaleType(ImageScaleType.IN_SAMPLE_INT)//设置图片以何种编码方式显示

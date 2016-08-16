@@ -47,4 +47,11 @@ public class InfoActivity extends Activity{
         
 		return "【健康小贴士】"+intro+"【点击文字可浏览下一条】";
 	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		System.gc();
+	}
 }

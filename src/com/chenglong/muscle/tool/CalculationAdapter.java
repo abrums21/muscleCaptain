@@ -23,8 +23,6 @@ public class CalculationAdapter extends BaseAdapter {
 	private String[] items;
     private Context context;
     private ViewHolder viewHolder;
-    private DisplayImageOptions options;
-    private ImageLoader imageLoader = ImageLoader.getInstance();
     
     private class ViewHolder {
 		public TextView itemName;

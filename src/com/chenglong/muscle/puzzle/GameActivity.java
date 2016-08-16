@@ -5,16 +5,23 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.chenglong.muscle.MainActivity;
 import com.chenglong.muscle.R;
+import com.chenglong.muscle.WelcomeActivity;
+import com.chenglong.muscle.util.MyBitmapUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
@@ -32,7 +39,7 @@ public class GameActivity extends Activity implements android.view.View.OnClickL
 	private final static String SELLECTED_IMAGE_ID = "SellectedImageID";
 	private int colums = 0;
 	private Bitmap myBitmap;
-	
+
 	private int stepNum = 0;
 	private int secondNum = 0;
 	private TextView step;
@@ -48,7 +55,7 @@ public class GameActivity extends Activity implements android.view.View.OnClickL
 
 	private MyGame myGame;
 	private ImageView iv;
-	//private MyGridView myGridView;
+	// private MyGridView myGridView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +74,12 @@ public class GameActivity extends Activity implements android.view.View.OnClickL
 		colums = mBundle.getInt(GAME_TYPE, -1);
 
 		if (!mImagePath.isEmpty()) {
-			myBitmap = BitmapFactory.decodeFile(mImagePath);
+			myBitmap = MyBitmapUtil.decodeBitmapByPath(this, mImagePath);
+			// myBitmap = BitmapFactory.decodeFile(mImagePath,options);
 		} else if (mSellectedID != -1) {
-			myBitmap = BitmapFactory.decodeResource(getResources(), mSellectedID);
+			myBitmap = MyBitmapUtil.decodeBitmapByRes(this, mSellectedID);
+			// myBitmap = BitmapFactory.decodeResource(getResources(),
+			// mSellectedID, options);
 		} else {
 			Toast.makeText(this, "找不到选择的照片", Toast.LENGTH_SHORT).show();
 			return;
@@ -79,9 +89,9 @@ public class GameActivity extends Activity implements android.view.View.OnClickL
 			Toast.makeText(this, "难度信息丢失", Toast.LENGTH_SHORT).show();
 			colums = 3;
 		}
-		
-	    step = (TextView) findViewById(R.id.game_steps);
-	    second = (TextView) findViewById(R.id.game_seconds);
+
+		step = (TextView) findViewById(R.id.game_steps);
+		second = (TextView) findViewById(R.id.game_seconds);
 		Button button1 = (Button) findViewById(R.id.game_button1);
 		Button button2 = (Button) findViewById(R.id.game_button2);
 		Button button3 = (Button) findViewById(R.id.game_button3);
@@ -90,8 +100,8 @@ public class GameActivity extends Activity implements android.view.View.OnClickL
 		button3.setOnClickListener(this);
 		clearStep();
 		clearSecond();
-		
-		initMyGridView();	
+
+		initMyGridView();
 		initShowImage();
 		initHandlerProc();
 		initTimerProc();
@@ -100,20 +110,30 @@ public class GameActivity extends Activity implements android.view.View.OnClickL
 	private void initShowImage() {
 
 		RelativeLayout ll = (RelativeLayout) findViewById(R.id.game_layout);
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		//ImageView iv = new ImageView(this);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+		// ImageView iv = new ImageView(this);
 		params.addRule(RelativeLayout.CENTER_IN_PARENT);
 		iv = new ImageView(this);
 		iv.setImageBitmap(myGame.getShowBitmap());
 		iv.setLayoutParams(params);
 		iv.setVisibility(View.GONE);
 		iv.setScaleType(ScaleType.FIT_XY);
-		iv.setOnClickListener(new ImageView.OnClickListener() {
-			
+		iv.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				iv.setVisibility(View.GONE);
+			}
+		});
+		iv.setOnKeyListener(new View.OnKeyListener() {
+
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				// TODO Auto-generated method stub
+				iv.setVisibility(View.GONE);
+				return false;
 			}
 		});
 		ll.addView(iv);
@@ -124,35 +144,40 @@ public class GameActivity extends Activity implements android.view.View.OnClickL
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.game_button1: {
-			Toast.makeText(this, "笨，还要看原图", Toast.LENGTH_SHORT).show();
-			iv.setVisibility(View.VISIBLE);
+			if (View.GONE == iv.getVisibility()) {
+				Toast.makeText(this, "笨，还要看原图", Toast.LENGTH_SHORT).show();
+				iv.setVisibility(View.VISIBLE);
+			} else {
+				iv.setVisibility(View.GONE);
+			}
 			break;
 		}
-		case R.id.game_button2: {		
+		case R.id.game_button2: {
 			freshMyGridView();
 			clearStep();
 			clearSecond();
 			break;
 		}
 		case R.id.game_button3: {
-			GameActivity.this.finish();
+			goBack();
 			break;
 		}
-		default:
-		{
+		default: {
 			break;
 		}
 		}
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		mTimer.cancel();
+		recycleBitmap();
+		myGame.destroyPuzzle();
+		System.gc();
 	}
-	
-	
+
 	private void initHandlerProc() {
 		// TODO Auto-generated method stub
 		mHandler = new Handler() {
@@ -184,33 +209,29 @@ public class GameActivity extends Activity implements android.view.View.OnClickL
 
 		mTimer.schedule(task, START_MILLIS, INTERVAL_MILLIS);
 	}
-	
-	private void freshStep()
-	{		
+
+	private void freshStep() {
 		stepNum++;
 		step.setText("" + stepNum);
 	}
-	
-	private void clearStep()
-	{		
+
+	private void clearStep() {
 		stepNum = 0;
 		step.setText("0");
 	}
-	
-	private void clearSecond()
-	{		
+
+	private void clearSecond() {
 		secondNum = 0;
 		second.setText("0");
 	}
-	
-	
+
 	private void initMyGridView() {
-		
+
 		myGame = new MyGame(this, colums, myBitmap);
-		
+
 		GridView mGridView = (GridView) findViewById(R.id.game_grad);
 		mGridView.setNumColumns(colums);
-		
+
 		myGame.getGameBitmap(list);
 		myGridAdapter = new MyGridAdapter(this, colums, list);
 
@@ -240,6 +261,49 @@ public class GameActivity extends Activity implements android.view.View.OnClickL
 		myGame.resetPuzzleBitmap();
 		myGame.getGameBitmap(list);
 		myGridAdapter.notifyDataSetChanged();
+	}
+
+	private void recycleBitmap() {
+		for (Bitmap bitmap : list) {
+			if (bitmap != null && !bitmap.isRecycled()) {
+				bitmap.recycle();
+				bitmap = null;
+			}
+		}
+		list.clear();
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (View.VISIBLE == iv.getVisibility()) {
+				iv.setVisibility(View.GONE);
+			} else {
+				goBack();
+			}
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
+	private void goBack() {
+		AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
+		AlertDialog dialog = adBuilder.setMessage("是否离开游戏").setPositiveButton("离开", new AlertDialog.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				finish();
+
+			}
+		}).setNegativeButton("继续", null).create();
+
+		WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+		lp.alpha = 0.7f;
+		dialog.getWindow().setAttributes(lp);
+
+		dialog.show();
 	}
 
 }

@@ -5,23 +5,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.chenglong.muscle.R;
-import com.chenglong.muscle.puzzle.MyScreenUtil;
+import com.chenglong.muscle.puzzle.SettingActivity;
+import com.chenglong.muscle.util.MyBitmapUtil;
+import com.chenglong.muscle.util.MyCommonUtil;
+import com.chenglong.muscle.util.MyPermissionUtil;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.ContactsContract.Directory;
 import android.provider.MediaStore;
-import android.util.DisplayMetrics;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,8 +44,9 @@ public class AlbumActivity extends Activity implements OnClickListener {
 	private boolean visable = false;
 	private AlbumAdapter mAdapter;
 	private int position = 0;
-//	private ViewPager pager;
+	// private ViewPager pager;
 	private LazyViewPager pager;
+	private boolean unUsed = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +54,23 @@ public class AlbumActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.album);
-		setTitle("美队健身：生活记录");
+		setTitle("美队健身：健身记录");
 
-		Toast.makeText(this, "通过照片记录你的健身历程", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "点击图片可进行拍照和删除", Toast.LENGTH_LONG).show();
 
-		ALBUM_PATH = this.getExternalFilesDir(Environment.DIRECTORY_DCIM).getAbsolutePath() + "/album/";
-
+		try {
+			ALBUM_PATH = this.getExternalFilesDir(Environment.DIRECTORY_DCIM).getAbsolutePath() + "/album/";
+		} catch (NullPointerException e)
+		{
+			// TODO: handle exception
+			unUsed = true;
+			ALBUM_PATH = "";
+		}
+		
 		album = new Album(this, ALBUM_PATH);
 
 		if (!album.createAlbum()) {
-			return;
+			unUsed = true;
 		}
 
 		pager = (LazyViewPager) findViewById(R.id.album_viewpager);
@@ -70,7 +82,7 @@ public class AlbumActivity extends Activity implements OnClickListener {
 		delIv.setOnClickListener(this);
 		// layout.setVisibility(View.VISIBLE);
 		List<ImageView> list = updatePager();
-		
+
 		mAdapter = new AlbumAdapter(list, this);
 		pager.setAdapter(mAdapter);
 		pager.setOnPageChangeListener(new LazyViewPager.OnPageChangeListener() {
@@ -98,6 +110,14 @@ public class AlbumActivity extends Activity implements OnClickListener {
 
 	}
 
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		album.destroyAlbum();
+		System.gc();
+	}
+
 	class Album {
 		private List<ImageView> images;
 		private Context context;
@@ -112,7 +132,9 @@ public class AlbumActivity extends Activity implements OnClickListener {
 
 			images = new ArrayList<ImageView>();
 			one = new ImageView(context);
-			one.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.album_one));
+			one.setImageBitmap(MyBitmapUtil.decodeBitmapByRes(context, R.drawable.album_one));
+			// one.setImageBitmap(BitmapFactory.decodeResource(context.getResources(),
+			// R.drawable.album_one, options));
 		}
 
 		public boolean createAlbum() {
@@ -130,7 +152,7 @@ public class AlbumActivity extends Activity implements OnClickListener {
 
 		public File createAlbumFile() {
 			File file = new File(ALBUM_PATH + new Long(System.currentTimeMillis()).intValue() + ALBUM_SUFFIX);
-			
+
 			return file;
 		}
 
@@ -140,16 +162,19 @@ public class AlbumActivity extends Activity implements OnClickListener {
 			images.add(one);
 
 			File[] subFile = dir.listFiles();
-			if (0 != subFile.length) {
+			if ( (subFile != null ) && (0 != subFile.length)) {
 				for (File iv : subFile) {
 					if (iv.isDirectory()) {
 						continue;
 					}
 					if (iv.getName().toLowerCase().endsWith(ALBUM_SUFFIX)) {
 						ImageView image = new ImageView(context);
-						Bitmap bp = resizeBitmap(BitmapFactory.decodeFile(iv.getAbsolutePath()));
+						// Bitmap bp =
+						// resizeBitmap(BitmapFactory.decodeFile(iv.getAbsolutePath(),
+						// options));
 						// BitmapFactory.decodeFile(iv.getAbsolutePath());
-						image.setImageBitmap(bp);
+						image.setImageBitmap(MyBitmapUtil.decodeBitmapByPath(context, iv.getAbsolutePath()));
+						// image.setImageBitmap(bp);
 						String filename = getFileName(iv.getAbsolutePath());
 						image.setId(Integer.valueOf(filename));
 						// image.setImageBitmap(BitmapFactory.decodeFile(iv.getName()));
@@ -162,6 +187,24 @@ public class AlbumActivity extends Activity implements OnClickListener {
 		}
 
 		private void clearAlbum() {
+//			for (ImageView image : images) {
+//
+//				Drawable drawable = image.getDrawable();
+//				if (drawable != null && drawable instanceof BitmapDrawable) {
+//					Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+//					if (bitmap != null && !bitmap.isRecycled()) {
+//						bitmap.recycle();
+//						bitmap = null;
+//					}
+//
+//				}
+//			}
+			images.clear();
+//			System.gc();
+
+		}
+
+		public void destroyAlbum() {
 			images.clear();
 		}
 
@@ -192,20 +235,6 @@ public class AlbumActivity extends Activity implements OnClickListener {
 		private String setFileName(String name) {
 			return ALBUM_PATH + name + ALBUM_SUFFIX;
 		}
-
-		private Bitmap resizeBitmap(Bitmap oldBitmap) {
-
-			DisplayMetrics metric = MyScreenUtil.getScreenMetrics(context);
-			float width = metric.widthPixels;
-			float height = metric.heightPixels;
-
-			Matrix matrix = new Matrix();
-			matrix.postScale(width / oldBitmap.getWidth(), height / oldBitmap.getHeight());
-
-			return Bitmap.createBitmap(oldBitmap, 0, 0, oldBitmap.getWidth(), oldBitmap.getHeight(), matrix,
-					true);
-		}
-
 	}
 
 	@Override
@@ -213,6 +242,10 @@ public class AlbumActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.album_add: {
+			if (true == unUsed) {
+				MyCommonUtil.getDialog4Unuse(AlbumActivity.this, "存储操作被禁止，影响相机功能，请确认");
+				break;
+			}
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(album.createAlbumFile()));
 			startActivityForResult(intent, CAPTURE_CODE);
@@ -222,22 +255,23 @@ public class AlbumActivity extends Activity implements OnClickListener {
 		}
 		case R.id.album_del: {
 			AlertDialog.Builder builder = new AlertDialog.Builder(AlbumActivity.this);
-			builder.setTitle("是否确认删除当前图片").setNegativeButton("取消", null).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					album.deleteAlbumFileByPos(position);
-					Toast.makeText(AlbumActivity.this, "已删除", Toast.LENGTH_SHORT).show();
-					
-					List<ImageView> list = updatePager();
-					// List<ImageView> list = album.getAlbum();
-					mAdapter.notifyDataSetChanged();
-					int location = (position + 1) % list.size();
-				    pager.setCurrentItem(location);
-					
-				}
-			});
+			builder.setTitle("是否确认删除当前图片").setNegativeButton("取消", null).setPositiveButton("确定",
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							album.deleteAlbumFileByPos(position);
+							Toast.makeText(AlbumActivity.this, "已删除", Toast.LENGTH_SHORT).show();
+
+							List<ImageView> list = updatePager();
+							// List<ImageView> list = album.getAlbum();
+							mAdapter.notifyDataSetChanged();
+							int location = (position + 1) % list.size();
+							pager.setCurrentItem(location);
+
+						}
+					});
 			builder.create().show();
 			break;
 		}
@@ -271,7 +305,6 @@ public class AlbumActivity extends Activity implements OnClickListener {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					Toast.makeText(AlbumActivity.this, "123", Toast.LENGTH_SHORT).show();
 					LinearLayout layout = (LinearLayout) findViewById(R.id.album_ll);
 					ImageView delIv = (ImageView) findViewById(R.id.album_del);
 					if (true != visable) {
@@ -292,4 +325,22 @@ public class AlbumActivity extends Activity implements OnClickListener {
 		return list;
 	}
 
+	@Override
+	public void startActivityForResult(Intent intent, int requestCode) {
+		// TODO Auto-generated method stub
+		if (CAPTURE_CODE == requestCode) { // Any way to judge that this is to
+											// sead an email
+			List<ResolveInfo> activities = getPackageManager().queryIntentActivities(intent, 0);
+			boolean flag = MyPermissionUtil.isCameraGranted(this);
+			if (activities == null || activities.size() == 0 || !flag) {
+				// Do anything you like, or just return
+				// Toast.makeText(AlbumActivity.this, "并没有可用的照相软件",
+				// Toast.LENGTH_LONG).show();
+				MyCommonUtil.getDialog4Unuse(this, "照相功能不可用，请确认");
+				return;
+			}
+		}
+
+		super.startActivityForResult(intent, requestCode);
+	}
 }

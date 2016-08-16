@@ -56,9 +56,10 @@
                 android:id="@+id/calc_item1_height"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:text="180"
-                android:textSize="20sp" />
+                android:textSize="20sp" 
+                android:maxLength="3"/>
         </TableRow>
 
         <TableRow

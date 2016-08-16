@@ -2,7 +2,9 @@ package com.chenglong.muscle;
 
 import java.util.List;
 
-import com.chenglong.muscle.puzzle.SettingActivity;
+import com.chenglong.muscle.R.drawable;
+import com.chenglong.muscle.util.MyCommonUtil;
+import com.chenglong.muscle.util.MyPackageUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.AlertDialog;
@@ -20,7 +22,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements OnClickListener, OnPageChangeListener {
@@ -133,18 +137,21 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 			// } else /* 若需要连续点击两次推出需要修改此处 */
 			{
 				AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
-				adBuilder.setMessage("是否确定离开").setPositiveButton("去意已决", new AlertDialog.OnClickListener() {
+				AlertDialog dialog = adBuilder.setMessage("是否确定离开").setPositiveButton("下次再来", new AlertDialog.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
-						//getWindow().getDecorView().startAnimation(new MyAnimation());
-						//new MyAnimation().start();
-						finish();
+						MainActivity.this.finish();
 						
 					}
-				}).setNegativeButton("再看看", null);
-				adBuilder.create().show();
+				}).setNegativeButton("再看看", null).create();
+				
+				WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+		    	lp.alpha = 0.7f;
+		    	dialog.getWindow().setAttributes(lp);	
+		    	
+		    	dialog.show();
 			}
 			return true;
 		}
@@ -155,8 +162,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		//getMenuInflater().inflate(R.menu.main, menu);
-		menu.add(0, ITEM1, 0, "关于");
+		super.onCreateOptionsMenu(menu);  
+		getMenuInflater().inflate(R.menu.menu_main, menu);
+		//menu.add(0, ITEM1, 0, "关于");
 		return true;
 	}
 
@@ -166,6 +174,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
+		
 //		if (id == R.id.action_settings) {
 //			return true;
 //		}
@@ -173,14 +182,21 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 		
 		switch (id)
 		{
-		    case ITEM1:
+		    case R.id.menu_main_1:
 		    {
-		    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		    	View aboutView = LayoutInflater.from(this).inflate(R.layout.about, null);
-		    	builder.setTitle("关于本软件")
+		    	aboutView.getBackground().setAlpha(150);
+		    	
+		    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		    	AlertDialog dialog = builder.setTitle("关于美队健身v"+MyPackageUtil.getAppVersionName(this))
+		    	.setIcon(R.drawable.menu_main_1)
 		    	       .setView(aboutView)
 		    	       .setNegativeButton("关闭", null)
-		    	       .create().show();
+		    	       .create();
+		    	WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+		    	lp.alpha = 0.8f;
+		    	dialog.getWindow().setAttributes(lp);	 	
+		    	dialog.show();
 			    break;
 		    }
 		    default:
@@ -254,16 +270,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 	        List<ResolveInfo> activities = getPackageManager().queryIntentActivities(intent, 0);
 	        if (activities == null || activities.size() == 0) {
 	            // Do anything you like, or just return
-	        	Toast.makeText(MainActivity.this, "并没有可用的发送EMAIL软件", Toast.LENGTH_SHORT).show();
-	            return;
+	    		MyCommonUtil.getDialog4Unuse(this, "发送EMAIL功能不可用，请确认");	        	
+	        	return;
 	        }
 	    }
 	    else if (uri.indexOf("tel") != -1) { 
 	    	List<ResolveInfo> activities = getPackageManager().queryIntentActivities(intent, 0);
 	        if (activities == null || activities.size() == 0) {
 	            // Do anything you like, or just return
-	        	Toast.makeText(MainActivity.this, "并没有可用的打电话软件", Toast.LENGTH_SHORT).show();
-	            return;
+	    		MyCommonUtil.getDialog4Unuse(this, "电话功能不可用，请确认");	  
+	        	return;
 	        }
 	    }
 	   
@@ -276,6 +292,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 		super.onDestroy();
     	ImageLoader.getInstance().clearMemoryCache();
     	ImageLoader.getInstance().stop();
+    	System.gc();
 	}
 		
 }

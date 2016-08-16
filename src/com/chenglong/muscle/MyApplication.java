@@ -1,5 +1,6 @@
 package com.chenglong.muscle;
 
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
@@ -25,6 +26,10 @@ public class MyApplication extends Application{
 				.denyCacheImageMultipleSizesInMemory()
 				.tasksProcessingOrder(QueueProcessingType.LIFO)
 				.writeDebugLogs()
+				.threadPoolSize(3)
+				.memoryCache(new WeakMemoryCache())
+				//.memoryCacheSize(2 * 1024 *1024)
+				.diskCacheSize(20*1024*1024)
 				.build();
 		// Initialize ImageLoader with configuration.
 		ImageLoader.getInstance().init(config);

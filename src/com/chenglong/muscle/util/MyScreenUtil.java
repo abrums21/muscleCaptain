@@ -1,4 +1,4 @@
-package com.chenglong.muscle.puzzle;
+package com.chenglong.muscle.util;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
