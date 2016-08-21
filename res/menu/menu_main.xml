@@ -1,8 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
+   <item
+        android:id="@+id/menu_main_2"
+        android:icon="@drawable/menu_main_1"
+        android:title="@string/menu_main_2"/>
+   
+   <item
+        android:id="@+id/menu_main_3"
+        android:icon="@drawable/menu_main_1"
+        android:title="@string/menu_main_3"/>
+   
     <item
         android:id="@+id/menu_main_1"
         android:icon="@drawable/menu_main_1"
         android:title="@string/menu_main_1"/>
-
+    
 </menu>

@@ -5,6 +5,7 @@ import java.util.List;
 import com.chenglong.muscle.R.drawable;
 import com.chenglong.muscle.floatBall.FloatBallService;
 import com.chenglong.muscle.floatBall.FloatViewManager;
+import com.chenglong.muscle.update.UpdateManager;
 import com.chenglong.muscle.util.MyCommonUtil;
 import com.chenglong.muscle.util.MyPackageUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -240,6 +241,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 		    	dialog.getWindow().setAttributes(lp);	 	
 		    	dialog.show();
 			    break;
+		    }
+		    case R.id.menu_main_3:
+		    {
+		    	/* 检查更新  */
+		    	UpdateManager update = new UpdateManager(MainActivity.this);
+		    	update.checkUpdate();
+		    	break;
 		    }
 		    default:
 		    	break;

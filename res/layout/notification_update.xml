@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<RelativeLayout    xmlns:android="http://schemas.android.com/apk/res/android"  
+      android:layout_width="match_parent"  
+            android:layout_height="wrap_content"  
+            android:layout_gravity="center"
+            android:orientation="horizontal" >  
+  
+            <ImageView  
+                android:id="@+id/notify_img"  
+                android:layout_width="60dp"  
+                android:layout_height="60dp"  
+                android:layout_margin="3dp"
+                android:background="@drawable/icon_small" />  
+    
+                <ProgressBar  
+                    android:id="@+id/notify_progress"  
+                    style="?android:attr/progressBarStyleHorizontal"  
+                    android:layout_width="match_parent"  
+                    android:layout_height="wrap_content"  
+                    android:layout_toRightOf="@id/notify_img"
+                    android:layout_margin="10dp"  
+                    android:max="100"  
+                    android:progress="0"/>  
+                    
+                 <TextView  
+                        android:id="@+id/notify_value"  
+                        android:layout_width="match_parent"  
+                        android:layout_height="wrap_content" 
+                        android:layout_toRightOf="@id/notify_img"
+                        android:layout_below="@id/notify_progress"  
+                        android:gravity="center"  
+                        android:text="正在连接资源"
+                        android:textColor="#fff" /> 
+        </RelativeLayout>  
+
