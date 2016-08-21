@@ -3,6 +3,8 @@ package com.chenglong.muscle;
 import java.util.List;
 
 import com.chenglong.muscle.R.drawable;
+import com.chenglong.muscle.floatBall.FloatBallService;
+import com.chenglong.muscle.floatBall.FloatViewManager;
 import com.chenglong.muscle.util.MyCommonUtil;
 import com.chenglong.muscle.util.MyPackageUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -10,6 +12,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,6 +45,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 	private final Fragment[] frags = { frag1, frag2};
 	private final int[] imageId = { R.id.image1, R.id.image2};
 	private final String[] titleInfo = {"美队健身：训练", "美队健身：工具"};
+	private final String[] floatBallInfo = {"关闭悬浮球", "开启悬浮球"};
+	private int floatBallShow = 1;
+	private SharedPreferences shareaPare;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +67,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 		// web.loadUrl(url);
 		// web.setWebViewClient(new WebViewClient()); /* 防止打开第三方浏览器打开 */
 		
+		startService();
 		initSetting();
 		tabSetting();
 		viewPagerSetting();
@@ -199,6 +207,40 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 		    	dialog.show();
 			    break;
 		    }
+		    case R.id.menu_main_2:
+		    {
+		    	View aboutView = LayoutInflater.from(this).inflate(R.layout.about, null);
+		    	aboutView.getBackground().setAlpha(150);
+		    	
+		    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		    	AlertDialog dialog = builder.setIcon(R.drawable.menu_main_1)
+		    			.setSingleChoiceItems(floatBallInfo, floatBallShow, new AlertDialog.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								// TODO Auto-generated method stub
+								if (which == floatBallShow)
+									return;
+								floatBallShow = which;
+								if (0 == floatBallShow) /* 关闭 */
+								{
+									FloatViewManager manager = FloatViewManager.getInstance(MainActivity.this);
+									manager.hideFloatBall();
+								}
+								else
+								{
+									FloatViewManager manager = FloatViewManager.getInstance(MainActivity.this);
+									manager.showFloatBall();
+								}
+							}
+						})
+		    			.create();
+		    	WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+		    	lp.alpha = 0.8f;
+		    	dialog.getWindow().setAttributes(lp);	 	
+		    	dialog.show();
+			    break;
+		    }
 		    default:
 		    	break;
 		}
@@ -289,10 +331,22 @@ public class MainActivity extends FragmentActivity implements OnClickListener, O
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
+		Editor editor = shareaPare.edit();
+		editor.putInt("floatBallShow", floatBallShow);
+		editor.commit();
 		super.onDestroy();
     	ImageLoader.getInstance().clearMemoryCache();
     	ImageLoader.getInstance().stop();
     	System.gc();
+	}
+	
+	void startService()
+	{
+		shareaPare = getSharedPreferences("phone", MODE_PRIVATE);
+		floatBallShow = shareaPare.getInt("floatBallShow", 1);
+		Intent intent = new Intent(this, FloatBallService.class);
+		//intent.putExtra("floatBallShow", floatBallShow);
+		startService(intent);
 	}
 		
 }

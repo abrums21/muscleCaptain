@@ -29,9 +29,6 @@ import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.chenglong.baidu.opensrc.MyPoiOverlay;
 import com.chenglong.muscle.R;
-import com.chenglong.muscle.R.drawable;
-import com.chenglong.muscle.R.id;
-import com.chenglong.muscle.R.layout;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -40,8 +37,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -60,13 +57,24 @@ public class MapActivity extends Activity
 	private PoiSearch poiSearch;
 	private MyPoiOverlay myPoiOverlay;
 	private String phoneNo;
+	private boolean initFalse = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		SDKInitializer.initialize(getApplicationContext());
+		try
+		{
+		    SDKInitializer.initialize(getApplicationContext());
+		}
+		catch(Exception e)
+		{
+			initFalse = true;
+			finish();
+			return;
+		}
+		
 		setContentView(R.layout.map);
 		setTitle("美队健身：附近健身房");
 		
@@ -160,12 +168,15 @@ public class MapActivity extends Activity
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
-		locClient.stop();
-		baiduMap.setMyLocationEnabled(false);
+		if (!initFalse)
+		{
+		    locClient.stop();
+		    baiduMap.setMyLocationEnabled(false);
+		
+		    mapView.onDestroy();
+		    mapView = null;
+		}
 		super.onDestroy();
-		mapView.onDestroy();
-		mapView = null;
-		System.gc();
 	}
 
 	@Override

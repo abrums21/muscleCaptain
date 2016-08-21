@@ -42,7 +42,7 @@ public class InitActivity extends Activity {
 		setContentView(R.layout.init);
 		shareaPare = getSharedPreferences("phone", MODE_PRIVATE);
 		
-		icon = (ImageView)findViewById(R.id.init_img2);
+		icon = (ImageView) findViewById(R.id.init_img2);
 		Animation anim = AnimationUtils.loadAnimation(this, R.anim.init_translation);
 		icon.startAnimation(anim);
 		anim.setAnimationListener(new AnimationListener() {
@@ -94,8 +94,8 @@ public class InitActivity extends Activity {
 					MyTipDB.openDatabase(InitActivity.this);
 				} else {
 					/* 非首次启动 */
-					//initIntent = new Intent(InitActivity.this, MainActivity.class);
-					initIntent = new Intent(InitActivity.this, WelcomeActivity.class);  /* just 4 test */
+					initIntent = new Intent(InitActivity.this, MainActivity.class);
+					//initIntent = new Intent(InitActivity.this, WelcomeActivity.class);  /* just 4 test */
 				}
 				
 				InitActivity.this.startActivity(initIntent);
