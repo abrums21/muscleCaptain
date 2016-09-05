@@ -3,4 +3,10 @@
 	<name>muscle_v2.2.1</name>
 	<info>提供手动更新功能</info>
 	<url>https://github.com/abrums21/muscleCaptain/blob/master/publish/muscle_v2.2.1.apk?raw=true</url>
+
+	<patch apk="3">
+	    <url>https://github.com/abrums21/muscleCaptain/blob/master/publish/muscle_v2.2.1.patch?raw=true</url>
+	    <md5>6445234451a174d82ee6c48867dca72c</md5>
+	</patch>
+	
 </update>
