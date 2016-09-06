@@ -5,6 +5,7 @@
 	<url>https://github.com/abrums21/muscleCaptain/blob/master/publish/muscle_v2.2.1.apk?raw=true</url>
 
 	<patch apk="3">
+	    <name>muscle_p_3</name>
 	    <url>https://github.com/abrums21/muscleCaptain/blob/master/publish/muscle_v2.2.1.patch?raw=true</url>
 	    <md5>D24E986D9AAF3FE01D9BF223C5286E44</md5>
 	</patch>
